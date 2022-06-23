@@ -20,7 +20,7 @@ jobs:
 
       - name: Step three
         id: step-three
-        if: {{ always() }}
+        if: ${{ always() }}
         run: |
           echo "run step three"
           echo " step two conclusion = ${{ steps.step-two.conclusion }}"
