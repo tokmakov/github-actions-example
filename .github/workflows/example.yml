@@ -3,7 +3,7 @@ name: github-actions-example
 on: push
 
 jobs:
-  example:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - name: Step one
@@ -17,19 +17,58 @@ jobs:
         # steps.step-one.conclusion == failure
         run: |
           echo "run step two"
-          echo " step one conclusion = ${{ steps.step-one.conclusion }}"
+          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step one
+        id: step-one
+        # steps.step-one.conclusion == failure
+        run: |
+          echo "run step one"
           exit 1
 
-      - name: Step three
-        id: step-three
+      - name: Step two
+        id: step-two
+        # этот шаг будем запускать всегда
         if: ${{ always() }}
         run: |
-          echo "run step three"
-          echo "step two conclusion = ${{ steps.step-two.conclusion }}"
+          echo "run step two"
+          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
 
-      - name: Step four
-        id: step-four
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step one
+        id: step-one
+        # steps.step-one.conclusion == failure
+        run: |
+          echo "run step one"
+          exit 1
+
+      - name: Step two
+        id: step-two
+        # при неудаче любого предыдущего шага
         if: ${{ failure() }}
         run: |
-          echo "run step four"
-          echo "step three conclusion = ${{ steps.step-three.conclusion }}"
+          echo "run step two"
+          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
+
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step one
+        id: step-one
+        # ожидание 30 секунд, чтобы успеть отменить workflow
+        run: |
+          echo "run step one"
+          sleep 30
+
+      - name: Step two
+        id: step-two
+        # при отмене рабочего процесса
+        if: ${{ cancelled() }}
+        run: |
+          echo "run step two"
+          echo "workflow cancelled"
