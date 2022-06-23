@@ -17,7 +17,7 @@ jobs:
           # задаем имя и значение output для этого шага
           echo "::set-output name=step-two-output::hello from step two"
           # получаем досуп к значению output первого шага
-          run: echo Step one output ${{ steps.step-one.outputs.step-one-output }}
+          echo Step one output ${{ steps.step-one.outputs.step-one-output }}
 
       - name: Step three
         id: step-three
