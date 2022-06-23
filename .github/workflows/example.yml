@@ -13,18 +13,18 @@ jobs:
 
       - name: Step two
         id: step-two
+        # 1. задаем имя и значение output для этого шага
+        # 2. получаем досуп к значению output первого шага
         run: |
-          # задаем имя и значение output для этого шага
           echo "::set-output name=step-two-output::hello from step two"
-          # получаем досуп к значению output первого шага
-          echo Step one output ${{ steps.step-one.outputs.step-one-output }}
+          echo Step one output value ${{ steps.step-one.outputs.step-one-output }}
 
       - name: Step three
         id: step-three
+        # 1. задаем имя и значение output для этого шага
+        # 2. получаем досуп к значению output первого шага
+        # 3. получаем досуп к значению output второго шага
         run: |
-          # задаем имя и значение output для этого шага
           echo "::set-output name=step-three-output::hello from step three"
-          # получаем досуп к значению output первого шага
-          echo Step one output ${{ steps.step-one.outputs.step-one-output }}
-          # получаем досуп к значению output второго шага
-          echo Step two output ${{ steps.step-two.outputs.step-three-output }}
+          echo Step one output value ${{ steps.step-one.outputs.step-one-output }}
+          echo Step two output value ${{ steps.step-two.outputs.step-three-output }}
