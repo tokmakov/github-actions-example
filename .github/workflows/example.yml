@@ -8,11 +8,13 @@ jobs:
     steps:
       - name: Step one
         id: step-one
-        if: ${{ false }} # steps.step-one.conclusion == skipped
+        # steps.step-one.conclusion == skipped
+        if: ${{ false }}
         run: echo "run step one"
 
       - name: Step two
         id: step-two
+        # steps.step-one.conclusion == failure
         run: |
           echo "run step two"
           echo " step one conclusion = ${{ steps.step-one.conclusion }}"
@@ -20,7 +22,7 @@ jobs:
 
       - name: Step three
         id: step-three
-        if: ${{ always() }}
+        if: ${{ true }}
         run: |
           echo "run step three"
           echo " step two conclusion = ${{ steps.step-two.conclusion }}"
