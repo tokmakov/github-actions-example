@@ -8,23 +8,18 @@ jobs:
     steps:
       - name: Step one
         id: step-one
-        # задаем имя и значение output для этого шага
-        run: echo "::set-output name=step-one-output::hello from step one"
+        if: ${{ false }} # steps.step-one.
+        run: echo "run step one"
 
       - name: Step two
         id: step-two
-        # 1. задаем имя и значение output для этого шага
-        # 2. получаем досуп к значению output первого шага
         run: |
-          echo "::set-output name=step-two-output::hello from step two"
-          echo "Step one output: ${{ steps.step-one.outputs.step-one-output }}"
+          echo "run step two"
+          echo " step one conclusion = ${{ steps.step-one.conclusion }}"
+          exit 1
 
       - name: Step three
         id: step-three
-        # 1. задаем имя и значение output для этого шага
-        # 2. получаем досуп к значению output первого шага
-        # 3. получаем досуп к значению output второго шага
         run: |
-          echo "::set-output name=step-three-output::hello from step three"
-          echo "Step one output: ${{ steps.step-one.outputs.step-one-output }}"
-          echo "Step two output: ${{ steps.step-two.outputs.step-two-output }}"
+          echo "run step three"
+          echo " step two conclusion = ${{ steps.step-two.conclusion }}"
