@@ -18,11 +18,18 @@ jobs:
         run: |
           echo "run step two"
           echo " step one conclusion = ${{ steps.step-one.conclusion }}"
-          exit 1
+          [[ $RANDOM % 2 ]] && exit 1 || exit 0
 
       - name: Step three
         id: step-three
-        if: ${{ true }}
+        if: ${{ always() }}
+        run: |
+          echo "run step three"
+          echo " step two conclusion = ${{ steps.step-two.conclusion }}"
+
+      - name: Step four
+        id: step-four
+        if: ${{ failure() }}
         run: |
           echo "run step three"
           echo " step two conclusion = ${{ steps.step-two.conclusion }}"
