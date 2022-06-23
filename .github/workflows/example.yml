@@ -25,11 +25,11 @@ jobs:
         if: ${{ always() }}
         run: |
           echo "run step three"
-          echo " step two conclusion = ${{ steps.step-two.conclusion }}"
+          echo "step two conclusion = ${{ steps.step-two.conclusion }}"
 
       - name: Step four
         id: step-four
         if: ${{ failure() }}
         run: |
-          echo "run step three"
-          echo " step two conclusion = ${{ steps.step-two.conclusion }}"
+          echo "run step four"
+          echo "step three conclusion = ${{ steps.step-three.conclusion }}"
