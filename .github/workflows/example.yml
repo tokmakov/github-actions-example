@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "run step two"
           echo " step one conclusion = ${{ steps.step-one.conclusion }}"
-          [[ $RANDOM % 2 ]] && exit 1 || exit 0
+          exit 1
 
       - name: Step three
         id: step-three
