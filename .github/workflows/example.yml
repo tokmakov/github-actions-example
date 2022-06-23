@@ -27,4 +27,4 @@ jobs:
         run: |
           echo "::set-output name=step-three-output::hello from step three"
           echo Step one output value ${{ steps.step-one.outputs.step-one-output }}
-          echo Step two output value ${{ steps.step-two.outputs.step-three-output }}
+          echo Step two output value ${{ steps.step-two.outputs.step-two-output }}
