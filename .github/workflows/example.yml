@@ -26,7 +26,7 @@ jobs:
 
   job-four:
     needs: [job-one, job-two, job-three]
-    if: ${{ failure() }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - run: |
