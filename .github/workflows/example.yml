@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "run step five"
           echo "function always()"
-          echo "conclusion step one: ${{ steps.step-one.conclusion }}"
-          echo "conclusion step two: ${{ steps.step-two.conclusion }}"
-          echo "conclusion step three: ${{ steps.step-three.conclusion }}"
-          echo "conclusion step three: ${{ steps.step-four.conclusion }}"
+          echo "outcome step one: ${{ steps.step-one.outcome }}"
+          echo "outcome step two: ${{ steps.step-two.outcome }}"
+          echo "outcome step three: ${{ steps.step-three.outcome }}"
+          echo "outcome step three: ${{ steps.step-four.outcome }}"
