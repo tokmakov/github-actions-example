@@ -10,6 +10,7 @@ jobs:
         run: echo "run step one"
  
       - id: step-two
+        continue-on-error: true
         run: |
           echo " run step two"
           exit 1
@@ -18,19 +19,7 @@ jobs:
         run: |
           echo "run step three"
           echo "function success()"
-
-      - id: step-four
-        if: ${{ failure() }}
-        run: |
-          echo "run step four"
-          echo "function failure()"
-
-      - id: step-five
-        if: ${{ always() }}
-        run: |
-          echo "run step five"
-          echo "function always()"
           echo "outcome step one: ${{ steps.step-one.outcome }}"
           echo "outcome step two: ${{ steps.step-two.outcome }}"
-          echo "outcome step three: ${{ steps.step-three.outcome }}"
-          echo "outcome step three: ${{ steps.step-four.outcome }}"
+          echo "conclusion step one: ${{ steps.step-one.conclusion }}"
+          echo "conclusion step two: ${{ steps.step-two.conclusion }}"
