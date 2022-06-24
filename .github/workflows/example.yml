@@ -10,7 +10,7 @@ jobs:
 
   job-two:
     needs: job-one
-    #   continue-on-error: true
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -26,7 +26,6 @@ jobs:
 
   job-four:
     needs: [job-one, job-two, job-three]
-    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - run: |
