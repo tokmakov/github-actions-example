@@ -3,22 +3,32 @@ name: github-actions-example
 on: push
 
 jobs:
-  example:
+  job-one:
     runs-on: ubuntu-latest
     steps:
-      - id: step-one
-        run: echo "run step one"
- 
-      - id: step-two
-        continue-on-error: true
-        run: |
-          echo " run step two"
+      - run: echo "run job-one"
+
+  job-two:
+    needs: job-one
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "run job-two"
           exit 1
 
-      - id: step-three
-        run: |
-          echo "run step three"
-          echo "outcome step one: ${{ steps.step-one.outcome }}"
-          echo "outcome step two: ${{ steps.step-two.outcome }}"
-          echo "conclusion step one: ${{ steps.step-one.conclusion }}"
-          echo "conclusion step two: ${{ steps.step-two.conclusion }}"
+  job-three:
+    needs: [job-one, job-two]
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "run job-three"
+
+  job-two:
+    needs: [job-one, job-two, job-three]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "run job-two"
+          echo "result job-one: ${{ needs.job-one.result }}"
+          echo "result job-two: ${{ needs.job-two.result }}"
+          echo "result job-three: ${{ needs.job-three.result }}"
