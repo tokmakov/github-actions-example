@@ -3,71 +3,38 @@ name: github-actions-example
 on: push
 
 jobs:
-  job1:
+  job-one:
     runs-on: ubuntu-latest
     steps:
-      - name: Step one
-        id: step-one
-        # steps.step-one.conclusion == skipped
-        if: ${{ false }}
-        run: echo "run step one"
-
-      - name: Step two
-        id: step-two
-        run: |
-          echo "run step two"
-          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
-
-  job2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step one
-        id: step-one
-        # steps.step-one.conclusion == failure
-        run: |
-          echo "run step one"
+      - run: |
+          echo "Run job-one"
           exit 1
 
-      - name: Step two
-        id: step-two
-        # этот шаг будем запускать всегда
-        if: ${{ always() }}
-        run: |
-          echo "run step two"
-          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
-
-  job3:
+  job-two:
+    needs: job-one
     runs-on: ubuntu-latest
     steps:
-      - name: Step one
-        id: step-one
-        # steps.step-one.conclusion == failure
-        run: |
-          echo "run step one"
-          exit 1
+      - run: |
+        echo "Run job-two"
+        echo "Function success()"
 
-      - name: Step two
-        id: step-two
-        # при неудаче любого шага этого job
-        if: ${{ failure() }}
-        run: |
-          echo "run step two"
-          echo "step one conclusion = ${{ steps.step-one.conclusion }}"
-
-  job4:
+  job-three:
+    needs: [job-one, job-two]
+    if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
-      - name: Step one
-        id: step-one
-        # 30 секунд на отмену workflow
-        run: |
-          echo "run step one"
-          sleep 30
+      - run: |
+        echo "Run job-three"
+        echo "Function failure()"
 
-      - name: Step two
-        id: step-two
-        # при отмене рабочего процесса
-        if: ${{ cancelled() }}
-        run: |
-          echo "run step two"
-          echo "workflow cancelled"
+  job-four:
+    needs: [job-one, job-two, job-three]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+        echo "Run job-four"
+        echo "Function always()"
+        echo "Result job-one: ${{ needs.job-one.result }}"
+        echo "Result job-two: ${{ needs.job-two.result }}"
+        echo "Result job-three: ${{ needs.job-three.result }}"
