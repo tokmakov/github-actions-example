@@ -23,12 +23,13 @@ jobs:
     steps:
       - run: echo "run job-three"
 
-  job-two:
+  job-four:
     needs: [job-one, job-two, job-three]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "run job-two"
+          echo "run job-four"
           echo "result job-one: ${{ needs.job-one.result }}"
           echo "result job-two: ${{ needs.job-two.result }}"
           echo "result job-three: ${{ needs.job-three.result }}"
