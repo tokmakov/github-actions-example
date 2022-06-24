@@ -3,31 +3,34 @@ name: github-actions-example
 on: push
 
 jobs:
-  job-one:
+  example:
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - id: step-one
+        run: echo "run step one"
+ 
+      - id: step-two
+        run: |
+          echo " run step two"
+          exit 1
 
-  job-two:
-    needs: job-one
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Function success()"
+      - id: step-three
+        run: |
+          echo "run step three"
+          echo "function success()"
 
-  job-three:
-    needs: [job-one, job-two]
-    if: ${{ failure() }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Function failure()"
+      - id: step-four
+        if: ${{ failure() }}
+        run: |
+          echo "run step four"
+          echo "function failure()"
 
-  job-four:
-    needs: [job-one, job-two, job-three]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "Function always()"
-          echo "Result job-one: ${{ needs.job-one.result }}"
-          echo "Result job-two: ${{ needs.job-two.result }}"
-          echo "Result job-three: ${{ needs.job-three.result }}"
+      - id: step-five
+        if: ${{ always() }}
+        run: |
+          echo "run step five"
+          echo "function always()"
+          echo "conclusion step one: ${{ steps.step-one.conclusion }}"
+          echo "conclusion step two: ${{ steps.step-two.conclusion }}"
+          echo "conclusion step three: ${{ steps.step-three.conclusion }}"
+          echo "conclusion step three: ${{ steps.step-four.conclusion }}"
