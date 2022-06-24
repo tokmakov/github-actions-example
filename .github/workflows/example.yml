@@ -26,6 +26,7 @@ jobs:
 
   job-four:
     needs: [job-one, job-two, job-three]
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:
       - run: |
