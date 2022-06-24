@@ -6,26 +6,20 @@ jobs:
   job-one:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Run job-one"
-          exit 1
+      - run: exit 1
 
   job-two:
     needs: job-one
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Run job-two"
-          echo "Function success()"
+      - run: echo "Function success()"
 
   job-three:
     needs: [job-one, job-two]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Run job-three"
-          echo "Function failure()"
+      - run: echo "Function failure()"
 
   job-four:
     needs: [job-one, job-two, job-three]
@@ -33,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Run job-four"
           echo "Function always()"
           echo "Result job-one: ${{ needs.job-one.result }}"
           echo "Result job-two: ${{ needs.job-two.result }}"
