@@ -10,6 +10,7 @@ jobs:
 
   job-two:
     needs: job-one
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - run: |
