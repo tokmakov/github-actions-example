@@ -5,18 +5,29 @@ on: push
 jobs:
   job-one:
     runs-on: ubuntu-latest
-    # задаем имена и значения для выходных значений этого задания
-    outputs:
-      output-one: ${{ steps.step-one.outputs.step-one-output }}
-      output-two: ${{ steps.step-two.outputs.step-two-output }}
     steps:
-      - id: step-one
-        run: echo "::set-output name=step-one-output::hello from step one"
-      - id: step-two
-        run: echo "::set-output name=step-two-output::hello from step two"
+      - run: exit 1
+
   job-two:
-    runs-on: ubuntu-latest
     needs: job-one
+    runs-on: ubuntu-latest
     steps:
-      # получаем доступ к выходным значениям задания job-one
-      - run: echo "${{needs.job-one.outputs.output-one}}, ${{needs.job-one.outputs.output-two}}"
+      - run: echo "Function success()"
+
+  job-three:
+    needs: [job-one, job-two]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Function failure()"
+
+  job-four:
+    needs: [job-one, job-two, job-three]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Function always()"
+          echo "Result job-one: ${{ needs.job-one.result }}"
+          echo "Result job-two: ${{ needs.job-two.result }}"
+          echo "Result job-three: ${{ needs.job-three.result }}"
