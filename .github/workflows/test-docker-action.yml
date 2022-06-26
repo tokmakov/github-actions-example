@@ -3,25 +3,34 @@ name: Test custom docker action
 on: [push]
 
 jobs:
-  get_user_name_job:
+  some-job:
     runs-on: ubuntu-latest
-    # передать outputs этого задания следующему заданию
-    outputs:
-      user_name: ${{ steps.get_user_name_step.outputs.user_name }}
     steps:
-      - name: Get user name
-        id: get_user_name_step
-        uses: tokmakov/custom-github-action-one@master
-        with:
-          user_id: 5
-      - name: Echo user name
-        # получаем доступ к output предыдущего шага
-        run: echo ${{ steps.get_user_name_step.outputs.user_name }}
+      - run: |
+          echo "do some job"
+          sleep 10
+          echo "job complete"
+          exit $(( $RANDOM % 2 ))
 
-  use_user_name_job:
+  success:
+    needs: some-job
     runs-on: ubuntu-latest
-    needs: get_user_name_job
     steps:
-      - name: Echo user name
-        # получаем доступ к output предыдущего задания
-        run: echo ${{needs.get_user_name_job.outputs.user_name}}
+      #- uses: tokmakov/telegram-docker-action@master
+      - uses: tokmakov/github-actions-example@master
+        with:
+          chat: '425435270'
+          token: '5205276228:AAHDqptF9UE5TSVyy5-VafpHf0KxBFZskBo'
+          text: 'Задание завершилось успешно'
+
+  failure:
+    needs: some-job
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      #- uses: tokmakov/telegram-docker-action@master
+      - uses: tokmakov/github-actions-example@master
+        with:
+          chat: '425435270'
+          token: '5205276228:AAHDqptF9UE5TSVyy5-VafpHf0KxBFZskBo'
+          text: 'Задание завершилось ошибкой'

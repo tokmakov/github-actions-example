@@ -5,8 +5,7 @@ FROM alpine:latest
 RUN	apk add --no-cache \
   bash \
   ca-certificates \
-  curl \
-  jq
+  curl
 
 # copy bash script to filesystem alpine OS
 COPY entrypoint.sh /entrypoint.sh

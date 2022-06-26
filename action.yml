@@ -2,16 +2,19 @@ name: Custom Github Docker Action
 description: Call API and get user name
 
 inputs:
-  user_id:
-    description: User ID, from 1 to 10
+  chat:
+    description: Telegram chat ID
     required: true
-    default: 1
-outputs:
-  user_name:
-    description: Getted user name
+  token:
+    description: Telegram API token
+    required: true
+  text:
+    description: Telegram message
+    required: true
 
 runs:
   using: docker
   image: Dockerfile
   args:
-    - ${{ inputs.user_id }}
+    - ${{ inputs.chat }}
+    - ${{ inputs.token }}

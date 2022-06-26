@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-api_url="https://jsonplaceholder.typicode.com/users/${INPUT_USER_ID}"
-echo $api_url
+api_url="https://api.telegram.org/bot$INPUT_TOKEN/sendMessage"
+header="Content-Type: application/json; charset=utf-8"
+json='{\"chat_id\":\"%s\",\"text\":\"%s\"}'
+printf -v data "$json" "$INPUT_CHAT" "$INPUT_TEXT"
 
-user_name=$(curl "${api_url}" | jq ".name")
-echo $user_name
-
-echo "::set-output name=user_name::$user_name"
+curl -X POST -H "$header" -d "$data" $api_url > /dev/null 2>&1
