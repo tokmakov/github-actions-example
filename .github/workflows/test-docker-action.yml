@@ -1,0 +1,27 @@
+name: Test custom docker action
+
+on: [push]
+
+jobs:
+  get_user_name_job:
+    runs-on: ubuntu-latest
+    # передать outputs этого задания следующему заданию
+    outputs:
+      user_name: ${{ steps.get_user_name_step.outputs.user_name }}
+    steps:
+      - name: Get user name
+        id: get_user_name_step
+        uses: tokmakov/custom-github-action-one@master
+        with:
+          user_id: 5
+      - name: Echo user name
+        # получаем доступ к output предыдущего шага
+        run: echo ${{ steps.get_user_name_step.outputs.user_name }}
+
+  use_user_name_job:
+    runs-on: ubuntu-latest
+    needs: get_user_name_job
+    steps:
+      - name: Echo user name
+        # получаем доступ к output предыдущего задания
+        run: echo ${{needs.get_user_name_job.outputs.user_name}}
