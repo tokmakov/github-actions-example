@@ -10,7 +10,9 @@ jobs:
           echo "do some job"
           sleep 5
           echo "job complete"
-          exit $(( $RANDOM % 2 ))
+          rand_number=$(( $RANDOM % 2 ))
+          echo "rand_number=$rand_number"
+          exit $(( $rand_number % 2 ))
 
   report:
     needs: some-job
