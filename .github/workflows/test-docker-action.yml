@@ -20,6 +20,6 @@ jobs:
       #- uses: tokmakov/telegram-docker-action@master
       - uses: tokmakov/github-actions-example@master
         with:
-          chat: '425435270'
-          token: '5205276228:AAHDqptF9UE5TSVyy5-VafpHf0KxBFZskBo'
+          chat: ${{ secrets.CHAT }}
+          token: ${{ secrets.TOKEN }}
           result: ${{ needs.some-job.result }}
