@@ -8,9 +8,10 @@ inputs:
   token:
     description: Telegram API token
     required: true
-  text:
-    description: Telegram message
+  result:
+    description: Result (success, failure, skipped, failure)
     required: true
+    default: success
 
 runs:
   using: docker
