@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: |
           echo "do some job"
-          sleep 10
+          sleep 5
           echo "job complete"
           exit $(( $RANDOM % 2 ))
 
