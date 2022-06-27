@@ -12,8 +12,9 @@ jobs:
           echo "job complete"
           exit $(( $RANDOM % 2 ))
 
-  success:
+  report:
     needs: some-job
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       #- uses: tokmakov/telegram-docker-action@master
@@ -21,16 +22,4 @@ jobs:
         with:
           chat: '425435270'
           token: '5205276228:AAHDqptF9UE5TSVyy5-VafpHf0KxBFZskBo'
-          text: 'Задание завершилось успешно'
-
-  failure:
-    needs: some-job
-    if: ${{ failure() }}
-    runs-on: ubuntu-latest
-    steps:
-      #- uses: tokmakov/telegram-docker-action@master
-      - uses: tokmakov/github-actions-example@master
-        with:
-          chat: '425435270'
-          token: '5205276228:AAHDqptF9UE5TSVyy5-VafpHf0KxBFZskBo'
-          text: 'Задание завершилось ошибкой'
+          result: ${{ needs.some-job.result }}

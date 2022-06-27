@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 # installes required packages for our script
-RUN	apk add --no-cache \
+RUN apk add --no-cache \
   bash \
   ca-certificates \
   curl
