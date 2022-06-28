@@ -17,6 +17,7 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       #- uses: tokmakov/telegram-docker-action@master
       - uses: ./.github/actions/telegram-message
         with:
