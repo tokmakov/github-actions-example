@@ -10,9 +10,7 @@ jobs:
           echo "do some job"
           sleep 5
           echo "job complete"
-          rand_number=$(( $RANDOM % 2 ))
-          echo "rand_number=$rand_number"
-          exit $(( $rand_number % 2 ))
+          exit $(( $RANDOM % 2 ))
 
   report:
     needs: some-job
@@ -20,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #- uses: tokmakov/telegram-docker-action@master
-      - uses: tokmakov/github-actions-example@master
+      - uses: ./.github/actions/telegram-message
         with:
           chat: ${{ secrets.CHAT }}
           token: ${{ secrets.TOKEN }}
