@@ -1,5 +1,5 @@
-name: Custom Github Docker Action
-description: Call API and get user name
+name: Send telegram message
+description: Send message to telegram (Docker image)
 
 inputs:
   chat:

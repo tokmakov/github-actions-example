@@ -5,15 +5,9 @@ api_url="https://api.telegram.org/bot${INPUT_TOKEN}/sendMessage"
 header='Content-Type: application/json; charset=utf-8'
 
 message='Задание завершилось успешно'
-if [[ $INPUT_RESULT == 'failure' ]]; then
-    message='Задание завершилось ошибкой'
-fi
-if [[ $INPUT_RESULT == 'skipped' ]]; then
-    message='Задание было пропущено'
-fi
-if [[ $INPUT_RESULT == 'cancelled' ]]; then
-    message='Задание было отменено'
-fi
+[[ $INPUT_RESULT == 'failure' ]] && message='Задание завершилось ошибкой'
+[[ $INPUT_RESULT == 'skipped' ]] && message='Задание было пропущено'
+[[ $INPUT_RESULT == 'cancelled' ]] &&  message='Задание было отменено'
 
 json='{\"chat_id\":\"%s\",\"text\":\"%s\"}'
 printf -v data "$json" "$INPUT_CHAT" "$message"
