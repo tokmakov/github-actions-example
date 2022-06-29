@@ -1,0 +1,25 @@
+name: Test send telegram message
+
+on: [push]
+
+jobs:
+  some-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "do something"
+          sleep 5
+          echo "job complete"
+          exit $(( $RANDOM % 2 ))
+
+  report:
+    needs: some-job
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/telegram-message
+        with:
+          chat: ${{ secrets.CHAT }}
+          token: ${{ secrets.TOKEN }}
+          result: ${{ needs.some-job.result }}

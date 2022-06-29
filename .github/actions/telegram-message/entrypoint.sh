@@ -4,7 +4,6 @@ set -e
 api_url="https://api.telegram.org/bot${INPUT_TOKEN}/sendMessage"
 header='Content-Type: application/json; charset=utf-8'
 
-# xxx
 message='Задание завершилось успешно'
 [[ $INPUT_RESULT == 'failure' ]] && message='Задание завершилось ошибкой'
 [[ $INPUT_RESULT == 'skipped' ]] && message='Задание было пропущено'

@@ -1,0 +1,21 @@
+name: Send telegram message
+description: Send message to telegram (Docker Action)
+
+inputs:
+  chat:
+    description: Telegram chat ID
+    required: true
+  token:
+    description: Telegram API token
+    required: true
+  result:
+    description: Result (success, failure, skipped, cancelled)
+    required: true
+    default: success
+
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - ${{ inputs.chat }}
+    - ${{ inputs.token }}
